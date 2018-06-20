@@ -8,47 +8,45 @@
  *
  * * * * * * * * * *
 """""
-import hashlib
 import sqlite3
+import hashlib
 
-
+"""""
+ * Name:     loginAuth
+ *
+ * Purpose:  Checks whether login credentials are correct according to the database
+ *
+ * Params:   username: A string; the input username
+ *           password: A string; the input password
+ *
+ * Return:   A boolean, true if authorized successfully and false if invalid credentials
+ *
+ * Notes:    None
+"""""
 def loginAuth(username, password):
-	"""
-	Checks whether login credentials are correct according to the database.
+    auth = False
 
-	Args:
-		username (str): The input username.
-		password (str): The input password.
+    # Connect to database
+    authdb = sqlite3.connect('db/auth.db')
+    curs = authdb.cursor()
 
-	Returns:
-		auth (bool): Format::
+    # Get salt
+    curs.execute("SELECT salt FROM Authdata WHERE username =?", (username,))
 
-			True -- Authorized.
-			False -- Unauthorized / invalid credentials.
-	"""
-	auth = False
+    salt = curs.fetchone()
 
-	# Connect to database
-	authdb = sqlite3.connect('db/auth.db')
-	curs = authdb.cursor()
+    # Hash entered PW with salt
+    if salt is not None:
+        hashedpw = hashlib.sha1(salt[0] + password).hexdigest()
+    else:
+        hashedpw = ' '
 
-	# Get salt
-	curs.execute("SELECT salt FROM Authdata WHERE username =?", (username,))
+    # Query database
+    dataarray = (username, hashedpw)
+    check = curs.execute("SELECT * FROM Authdata WHERE username=? AND password=?", dataarray)
 
-	salt = curs.fetchone()
+    # If query returned a result, return true. Otherwise, return false.
+    if check.fetchone():
+        auth = True
+    return auth
 
-	# Hash entered PW with salt
-	if salt is not None:
-		hashedpw = hashlib.sha1(salt[0] + password).hexdigest()
-	else:
-		hashedpw = ' '
-
-	# Query database
-	dataarray = (username, hashedpw)
-	check = curs.execute("SELECT * FROM Authdata WHERE username=? AND password=?", dataarray)
-
-	# If query returned a result, return true. Otherwise, return false.
-	if check.fetchone():
-		auth = True
-
-	return auth

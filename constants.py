@@ -9,7 +9,7 @@
  * * * * * * * * * *
 """""
 
-# This file stores all constants used on the server-side of the Desert-Fireball-Maintainence-GUI.
+# This file stores all constants used on the server-side of the GUI.
 # The major constants here are different bash commands, executed server-side.
 getExitStatus = "echo $?"
 getHostname = "hostname"
@@ -20,15 +20,15 @@ outputTime = "date"
 
 cameraOn = "python /opt/dfn-software/enable_camera.py;"
 cameraOff = "python /opt/dfn-software/disable_camera.py;"
-videoCameraOn = "python /opt/dfn-software/enable_video.py"
-videoCameraOff = "python /opt/dfn-software/disable_video.py"
+videoCameraOn = "python /opt/dfn-software/enable_video.py;"
+videoCameraOff = "python /opt/dfn-software/disable_video.py;"
 cameraCheck = "lsusb"
 cameraActuation = "ls /data0/latest/*.NEF | xargs exiv2 | grep 'Shutter Speed'"
 getDirectorySize = "du -sh {0} | egrep -o '[0-9]+[A-Z]+'"
 getNumFilesInDirectory = 'find {0} -type f | wc -l'
 findPictures = "find /data[0-3] -type d -name '*{0}-{1}-{2}*' | grep -v 'test\|video'"
-copyFileToStatic = "mkdir /opt/dfn-software/Desert-Fireball-Maintainence-GUI/static/downloads; cp {0} /opt/dfn-software/Desert-Fireball-Maintainence-GUI/static/downloads/ && echo SUCCESS"
-extractThumbnail = "mkdir /opt/dfn-software/Desert-Fireball-Maintainence-GUI/static/downloads; exiv2 -ep3 -l /opt/dfn-software/Desert-Fireball-Maintainence-GUI/static/downloads/ {0} && SUCCESS"
+copyFileToStatic = "mkdir /opt/dfn-software/GUI/static/downloads; cp {0} /opt/dfn-software/GUI/static/downloads/ && echo SUCCESS"
+extractThumbnail = "mkdir /opt/dfn-software/GUI/static/downloads; exiv2 -ep3 -l /opt/dfn-software/GUI/static/downloads/ {0} && SUCCESS"
 shutterCount = "exiv2 -pa {0} | grep Nikon3\.ShutterCount | grep -oP '[0-9]{5}'"
 
 enableHardDrive = "python /opt/dfn-software/enable_ext-hd.py;"
@@ -38,12 +38,10 @@ extDeleteDriveDevicesCheck = "smartctl -i /dev/{0} | grep 'Rotation Rate:'"
 extDeleteDriveDevice = "echo 1 > /sys/block/{0}/device/delete"
 mountHardDrive = "mount {0} && echo SUCCESS"
 unmountHardDrive = "umount {0} && echo SUCCESS"
-probeHardDrives = "/root/bin/dfn_setup_data_hdds.sh -p"
+probeHardDrives = "/root/bin/dfn_setup_data_hdds.sh -p;"
 formatHardDrive = "/root/bin/dfn_setup_data_hdds.sh {0};"
-probeHardDrivesOLD =  "/root/bin/dfn_setup_usb_hdds.sh -p"
-formatHardDriveOLD = "/root/bin/dfn_setup_usb_hdds.sh {0};"
 hddPoweredStatus = "lsusb"
-hddPoweredStatusExt = "lsblk | grep 'sdb1\|sdc1\|sdd1'"
+hddPoweredStatusExt = "lsblk -l"
 data0PoweredStatus = "df | grep /data0 && echo SUCCESS"
 moveData0 = "/usr/local/bin/move_data_files.sh && echo SUCCESS"
 moveData0Ext = "/usr/local/bin/move_data_files_gen3.sh && echo SUCCESS"
@@ -59,14 +57,15 @@ restartModem = "ifdown ppp0; sleep 8; ifup ppp0; sleep 8; ifconfig ppp0 && echo 
 
 vpnCheck = "ping -c 1 10.1.16.1"
 getVpnIP = "ifconfig | grep tun0 -A 1 | grep -o '\(addr:\|inet \)[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}'| cut -c6-"
-restartVPN = "service openvpn restart; sleep 10; ifconfig tun0 && echo SUCCESS"
+restartVPN_small = "service openvpn restart; sleep 10; ifconfig tun0 && echo SUCCESS"
+restartVPN_ext = "systemctl restart openvpn@$(hostname).service; sleep 10; ifconfig tun0 && echo SUCCESS"
 
 cfcheck = "python /opt/dfn-software/camera_image_count.py"
 intervalTest = "/opt/dfn-software/interval_control_test.sh;"
 checkIntervalResults = "ls -lR /data0/latest_prev/*.NEF | wc -l"
 checkPrevIntervalStatus = "find /data0/latest -exec stat -c%y {} \; | sort -n -r | head -n 1"
 
-getLogfileName = "ls /data0/{0} | grep .txt"
+getLogfileName = "ls /data0/{0} | grep interval.txt"
 
 # Strings used as web console output
 cameraSwitchedOn = "Camera on command executed. Check status for confirmation.\n"
@@ -101,7 +100,6 @@ hddStatusPowered = "Powered"
 hddStatusMounted = "Mounted"
 hddFormatPassed = "\nHarddrives formatted successfully.\n"
 hddFormatFailed = "Some drives still mounted, or didn't format properly. Please make sure drives are unmounted and safe to format."
-
 
 hddCommandedOn = "Hard drive power on command executed.\n"
 hddCommandedOff = "Hard drive power off successful.\n"
@@ -143,36 +141,35 @@ leostickStatusScriptNotFound = scriptNotFound.format("leostick_get_status.py")
 intervalControlTestScriptNotFound = scriptNotFound.format("interval_control_test.sh")
 cfCheckScriptNotFound = scriptNotFound.format("camera_image_count.py")
 
-
 # Whitelist for which config variables the user can modify
 configBoxWhitelist = {}
 configBoxWhitelist["camera"] = {
-	"camera_exposuretime",
-	"camera_fstop",
-	"still_lens",
-	"vid_lens",
-	"vid_ser_no",
-	"vid_camera",
-	"camera_ser_no",
-	"vid_format",
-	"still_camera",
-	"camera_iso"
-}
+            "camera_exposuretime",
+            "camera_fstop",
+            "still_lens",
+            "vid_lens",
+            "vid_ser_no",
+            "vid_camera",
+            "camera_ser_no",
+            "vid_format",
+            "still_camera",
+            "camera_iso"
+            }
 
 configBoxWhitelist["link"] = {
-	"local_contact_email",
-	"local_contact_name"
-}
+            "local_contact_email",
+            "local_contact_name"
+            }
 
 configBoxWhitelist["station"] = {
-    "location",
-	"lat",
-    "altitude",
-	"hostname",
-	"lon"
-}
+            "location",
+            "lat",
+            "altitude",
+            "hostname",
+            "lon"
+            }
 
-configNotFound = "Config file not found."
+configNotFound = "ERROR: Config file not found."
 configWriteFailed = "ERROR: Unable to write to config file (is internal drive mounted?)."
 configWritePassed = "Overwritten {0} as {1}."
 
