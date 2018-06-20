@@ -1061,3 +1061,24 @@ def prevIntervalTest():
         consoleFeedback = constants.prevIntervalDidRun
 
     return consoleFeedback
+
+"""""
+ * Name:     reboot
+ *
+ * Purpose:  sends reboot command to PC
+ *
+ * Params:   None
+ *
+ * Return:   feedbackOutput, an output string to give the user feedback
+ *
+ * Notes:    None
+"""""
+def Reboot():
+    # Do command
+    consoleOutput = doConsoleCommand(constants.Reboot)
+
+    # Parse output
+    feedbackOutput = constants.RebootStarted
+
+    return feedbackOutput
+

@@ -57,7 +57,8 @@ urls = ('/', 'Index',
         '/getlatestlog', 'LatestLog',
         '/getlatestprevlog', 'LatestPrevLog',
         '/populateconfigbox', 'PopulateConfigBox',
-        '/updateconfigfile', 'UpdateConfigFile')
+        '/updateconfigfile', 'UpdateConfigFile',
+        '/reboot', 'Reboot')
 app = web.application(urls, globals())
 
 # Custom http response messages
@@ -1141,6 +1142,31 @@ class PrevIntervalTest:
                 outJSON = json.dumps(data)
             except AttributeError as e:
                 raise web.InternalError('Latest photo directory (/data0/latest) corrupt or not present.')
+
+            return outJSON
+
+class Reboot:
+
+    """""
+     * Name:     Reboot.GET
+     *
+     * Purpose:  reboots the system
+     *
+     * Params:   None
+     *
+     * Return:   A JSON object with the following variables:
+     *           consoleFeedback: An output string to give the user feedback
+     *
+    """""
+    def GET(self):
+        if LoginChecker.loggedIn():
+            data = {}
+
+            try:
+                data['consoleFeedback'] = commandSender.Reboot()
+                outJSON = json.dumps(data)
+            except IOError as e:
+                raise web.InternalError(e.message)
 
             return outJSON
 
