@@ -113,7 +113,7 @@ smartTestStartedFailed = "\nSmart test {0} failed execution (try re-powering dri
 smartTestResultsPassed = "Smart test for {0} passed.\n"
 smartTestResultsFailed = "Smart test for {0} failed.\n"
 smartTestNotPowereredError = "Smart test failed. Hard drives need to be powered."
-smartTestCommandNotInstalled = "Smart test command not installed. Please contact campbelljip@gmail.com."
+smartTestCommandNotInstalled = "Smart test command not installed. Please contact dfn.camera.help@gmail.com."
 
 hddMountPassed = "{0} mounted successfully.\n"
 hddMountFailed = "{0} mount error: {1}\n"
