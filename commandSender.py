@@ -1029,7 +1029,7 @@ def intervalTest():
     feedbackOutput = constants.intervalTestFailed
 
     consoleOutput = doConsoleCommand(constants.checkIntervalResults)
-    if consoleOutput in ['5','6', '7', '8']: # NOTE: 6 +/- 1 is the required margin of error.
+    if consoleOutput in ['3', '4', '5', '6', '7', '8']: # NOTE: 6 +/- 1 is the required margin of error dor SMALLs, 4 +/-1 for EXTs
         status = True
         feedbackOutput = constants.intervalTestPassed
 
