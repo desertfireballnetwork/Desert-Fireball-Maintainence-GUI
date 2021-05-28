@@ -52,8 +52,9 @@ hddSpaceLive = "df -h | egrep 'Filesystem|data'"
 runSmartTest = "smartctl -d {0} -t short /dev/sdb;"
 checkSmartTest= "smartctl -d {0} -a /dev/sdb"
 
-internetCheck = "ping -c 1 www.google.com"
-getInternetIP = "ifconfig | grep eth1 -A 1 | grep -o '\(addr:\|inet \)[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | cut -c6-"
+internetCheck = "ping -c 3 -w 120 www.google.com"
+getInternetIP = "dfn_check_internet_connection.sh"
+#getInternetIP = "ifconfig | grep eth1 -A 1 | grep -o '\(addr:\|inet \)[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | cut -c6-"
 restartModem =  "dfn_restart_modem.sh"
 #"ifdown ppp0; sleep 8; ifup ppp0; sleep 8; ifconfig ppp0 && echo SUCCESS"
 
@@ -62,7 +63,7 @@ RebootStarted = "Reboot/Shutdown underway, disconnect power after beep"
 
 ModemStatus = "dfn_print_mobile_signal_quality.sh"
 
-vpnCheck = "ping -c 1 10.1.16.1"
+vpnCheck = "ping -c 3 -w 120 10.1.16.1"
 getVpnIP = "ifconfig | grep tun0 -A 1 | grep -o '\(addr:\|inet \)[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}'| cut -c6-"
 restartVPN_small = "service openvpn restart; sleep 10; ifconfig tun0 && echo SUCCESS"
 restartVPN_ext = "systemctl restart openvpn@$(hostname).service; sleep 10; ifconfig tun0 && echo SUCCESS"
