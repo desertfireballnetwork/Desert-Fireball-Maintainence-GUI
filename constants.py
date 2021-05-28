@@ -54,10 +54,13 @@ checkSmartTest= "smartctl -d {0} -a /dev/sdb"
 
 internetCheck = "ping -c 1 www.google.com"
 getInternetIP = "ifconfig | grep eth1 -A 1 | grep -o '\(addr:\|inet \)[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | cut -c6-"
-restartModem = "ifdown ppp0; sleep 8; ifup ppp0; sleep 8; ifconfig ppp0 && echo SUCCESS"
+restartModem =  "dfn_restart_modem.sh"
+#"ifdown ppp0; sleep 8; ifup ppp0; sleep 8; ifconfig ppp0 && echo SUCCESS"
 
 Reboot = "shutdown -h now"
 RebootStarted = "Reboot/Shutdown underway, disconnect power after beep"
+
+ModemStatus = "dfn_print_mobile_signal_quality.sh"
 
 vpnCheck = "ping -c 1 10.1.16.1"
 getVpnIP = "ifconfig | grep tun0 -A 1 | grep -o '\(addr:\|inet \)[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}'| cut -c6-"
@@ -117,7 +120,7 @@ smartTestStartedFailed = "\nSmart test {0} failed execution (try re-powering dri
 smartTestResultsPassed = "Smart test for {0} passed.\n"
 smartTestResultsFailed = "Smart test for {0} failed.\n"
 smartTestNotPowereredError = "Smart test failed. Hard drives need to be powered."
-smartTestCommandNotInstalled = "Smart test command not installed. Please contact campbelljip@gmail.com."
+smartTestCommandNotInstalled = "Smart test command not installed. Please contact dfn.camera.help@gmail.com."
 
 hddMountPassed = "{0} mounted successfully.\n"
 hddMountFailed = "{0} mount error: {1}\n"

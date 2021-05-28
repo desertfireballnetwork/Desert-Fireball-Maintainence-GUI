@@ -1082,3 +1082,23 @@ def Reboot():
 
     return feedbackOutput
 
+"""""
+ * Name:     modemstatus
+ *
+ * Purpose:  send command to get status of modem and signal strength
+ *
+ * Params:   None
+ *
+ * Return:   an output string to give the user feedback
+ *
+ * Notes:    None
+"""""
+def ModemStatus():
+    # Do command
+    consoleOutput = doConsoleCommand(constants.ModemStatus)
+
+    # Parse output
+    feedbackOutput = "modem command sent"
+
+    return consoleOutput
+

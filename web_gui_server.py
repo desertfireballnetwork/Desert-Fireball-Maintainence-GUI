@@ -58,7 +58,8 @@ urls = ('/', 'Index',
         '/getlatestprevlog', 'LatestPrevLog',
         '/populateconfigbox', 'PopulateConfigBox',
         '/updateconfigfile', 'UpdateConfigFile',
-        '/reboot', 'Reboot')
+        '/reboot', 'Reboot',
+        '/modemstatus', 'ModemStatus')
 app = web.application(urls, globals())
 
 # Custom http response messages
@@ -1164,6 +1165,31 @@ class Reboot:
 
             try:
                 data['consoleFeedback'] = commandSender.Reboot()
+                outJSON = json.dumps(data)
+            except IOError as e:
+                raise web.InternalError(e.message)
+
+            return outJSON
+
+class ModemStatus:
+
+    """""
+     * Name:     ModemStatus.GET
+     *
+     * Purpose:  gets the status of the modem and signal
+     *
+     * Params:   None
+     *
+     * Return:   A JSON object with the following variables:
+     *           consoleFeedback: An output string to give the user feedback
+     *
+    """""
+    def GET(self):
+        if LoginChecker.loggedIn():
+            data = {}
+
+            try:
+                data['consoleFeedback'] = commandSender.ModemStatus()
                 outJSON = json.dumps(data)
             except IOError as e:
                 raise web.InternalError(e.message)

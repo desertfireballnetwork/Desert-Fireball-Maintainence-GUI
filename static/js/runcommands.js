@@ -138,6 +138,7 @@ $(document).ready(function () {
     $("#StatusConfig").click(statusConfigHandler);
     $("#CheckLatestLogs").click(latestLogsHandler);
     $("#Reboot").click(RebootHandler);
+    $("#ModemStatus").click(modemStatusHandler);
     $("#CheckLatestPrevLogs").click(latestPrevLogsHandler);
     $("#EditDFNConfig").click(populateConfigChangeBox);
     $("#ConfigPopupExit").click(closeConfigEditHandler);
@@ -259,7 +260,7 @@ $(document).ready(function () {
             }
             else if (jqXHR.status == 500 && jqXHR.responseText === "internal server error") {
                 console.log(jqXHR);
-                addToWebConsole("HTTP ERROR 500: Unknown server error. Please report this bug to campbelljip@gmail.com.\n" + line);
+                addToWebConsole("HTTP ERROR 500: Unknown server error. Please report this bug to dfn.camera.help@gmail.com.\n" + line);
             }
             else {
                 addToWebConsole(jqXHR.status + " " + jqXHR.statusText + ": " + jqXHR.responseText + "\n" + line);
@@ -945,6 +946,21 @@ $(document).ready(function () {
             addToWebConsole("Rebooting (wait for beep to disconnect power)...\n");
             //Request to turn camera on
             $.getJSON("/reboot", function (result) {
+                //Set feedback text
+                addToWebConsole(result.consoleFeedback + "\n" + line);
+                //Open up for other commands to be run
+                doingCommand = false;
+            }).fail(ajaxFailed);
+        }
+    }
+
+     function modemStatusHandler() {
+        if (preCommandCheck()) {
+            doingCommand = true;
+            //Feedback on button press
+            addToWebConsole("Checking modem status...\n");
+            //Request to turn camera on
+            $.getJSON("/modemstatus", function (result) {
                 //Set feedback text
                 addToWebConsole(result.consoleFeedback + "\n" + line);
                 //Open up for other commands to be run
