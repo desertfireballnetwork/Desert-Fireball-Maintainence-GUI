@@ -832,7 +832,7 @@ def restartModem():
     if "SUCCESS" in consoleOutput:
         feedbackOutput = constants.modemRestartPassed
 
-    return feedbackOutput
+    return consoleOutput
 
 """""
  * Name:     vpnStatus

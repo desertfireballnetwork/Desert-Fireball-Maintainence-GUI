@@ -839,7 +839,7 @@ class RestartModem:
             data = {}
             restartFeedback = commandSender.restartModem()
             statusFeedback, data['internetStatus'] = commandSender.internetStatus()
-            data['consoleFeedback'] = restartFeedback + statusFeedback
+            data['consoleFeedback'] = restartFeedback # + statusFeedback
             outJSON = json.dumps(data)
             return outJSON
 

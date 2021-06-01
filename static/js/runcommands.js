@@ -718,10 +718,10 @@ $(document).ready(function () {
             doingCommand = true;
             //Feedback on button press
             addToWebConsole("Restarting modem...\n");
-            openSpinner("Restarting modem, just a minute...");
+//            openSpinner("Restarting modem, just a minute...");
             //Request to check GPS status
             $.getJSON("/restartmodem", function (result) {
-                closeSpinner();
+//                closeSpinner();
                 consoleBlinkGreen();
                 //Set feedback text
                 addToWebConsole(result.consoleFeedback + "\n" + line);
