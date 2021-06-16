@@ -1,0 +1,24 @@
+[Unit]
+Description=DFN camera system web GUI
+#Documentation=
+After=network.target data0.mount
+
+[Service]
+# tell python to flush std/err output more often
+Environment=PYTHONUNBUFFERED=1
+# see man systemd.service 
+Type=simple
+#Type=exec
+# Type notify has to send sd_notify(0, "READY=1");
+#Type=notify
+#commands that were not prefixed with a "-" must exit successfully.
+ExecStartPre=
+ExecStart=/usr/bin/python /opt/dfn-software/GUI/web_gui_server.py
+ExecStop=
+ExecStopPost=
+
+#StandardOutput=syslog
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
