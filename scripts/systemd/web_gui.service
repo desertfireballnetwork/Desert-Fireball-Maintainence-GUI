@@ -13,7 +13,7 @@ Type=simple
 #Type=notify
 #commands that were not prefixed with a "-" must exit successfully.
 ExecStartPre=
-ExecStart=/usr/bin/python /opt/dfn-software/GUI/web_gui_server.py
+ExecStart=/usr/local/bin/web_gui_service_wrapper.sh
 ExecStop=
 ExecStopPost=
 
