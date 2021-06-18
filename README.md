@@ -18,3 +18,21 @@ The GUI is a web-based interface, using web.py to serve both html and static fil
 
 * Python 2.7 (due to web.py)
 * web.py
+
+### DFNSMALLs install:
+```
+apt-get install python-webpy
+```
+### DFNEXTs install:
+```
+apt-get install python-webpy
+```
+or
+```
+pip install web.py
+```
+### Alternative: install from source (github)
+https://github.com/webpy/webpy
+
+### Other notes
+Make sure that subdirectory /opt/dfn-software/GUI/sessions exists and is writeable for the web_gui_server.
